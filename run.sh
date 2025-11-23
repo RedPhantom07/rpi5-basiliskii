@@ -41,15 +41,15 @@ sleep 5
 # MPFR for Kanjitalk755 Version
 
 cd ~/rpi5-basilikii
-wget https://www.mpfr.org/mpfr-current/mpfr-4.2.2.tar.xz
-tar -xf mpfr-4.2.2.tar.xz
+wget https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.0.tar.xz
+tar -xf mpfr-4.2.0.tar.xz
 
 echo -e "${RED}>>> Compiling and installing MPFR in 5 seconds...this may take a few moments...${NC}"
 sleep 5
 
 # MPFR
 
-cd mpfr-4.2.2
+cd mpfr-4.2.0
 ./configure --disable-shared
 sudo make
 sudo make check
