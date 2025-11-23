@@ -20,8 +20,8 @@ The default screen is set to 800 x 600 with a 68040 processor, and 64mb of RAM.
 To install using the script, boot into your freshly created Raspberry Pi OS Lite and login with the default user "pi" (password "raspberry"). Then run the following commands:
 
     sudo apt install git
-    git clone https://github.com/ekbann/rpi-basilisk2-sdl2-nox
-    cd rpi-basilisk2-sdl2-nox
+    git clone https://github.com/RedPhantom07/rpi5-basiliskii
+    cd rpi5-basiliskii
     bash run.sh
 
 When the script ends, it will run Basilisk II automatically but you can also manually start with the commands below. Enjoy!
