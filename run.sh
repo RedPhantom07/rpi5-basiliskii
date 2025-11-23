@@ -113,6 +113,7 @@ init_grab false
 dsp /dev/dsp
 mixer /dev/mixer
 idlewait true
+ether slirp
 screen win/800/600" | tee -a ~/.basilisk_ii_prefs
 
 cd ~
