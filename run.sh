@@ -21,7 +21,7 @@ sleep 5
 
 # GMP for Kanjitalk755 Version
 
-mkdir -p ~/Downloads
+sudo mkdir -p ~/Downloads
 wget https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz -O - | tar -xf -C ~/Downloads
 
 echo -e "${RED}>>> Compiling and installing GMP in 5 seconds...this may take a few moments...${NC}"
