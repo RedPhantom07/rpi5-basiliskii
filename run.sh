@@ -7,14 +7,14 @@ read -p $'\e[31m>>> Perform system update and upgrade first? (Reboot required) \
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-	sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git
+	sudo apt-get update && sudo apt-get dist-upgrade -y && sudo apt-get install git
 	sudo reboot
 fi
 
 echo -e "${RED}>>> No update. Installing development packages in 5 seconds.${NC}"
 sleep 5
 
-sudo apt install unzip libudev-dev automake autoconf gobjc libsdl2-dev libsdl1.2-dev -y
+sudo apt install unzip libudev-dev automake autoconf gobjc libsdl2-dev -y
 
 echo -e "${RED}>>> Downloading GMP in 5 seconds.${NC}"
 sleep 5
