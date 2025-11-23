@@ -21,16 +21,13 @@ sleep 5
 
 # GMP for Kanjitalk755 Version
 
-sudo mkdir -p ~/Downloads
 wget https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
-tar -xf -C ~/Downloads
+tar -xf -C gmp-6.2.1.tar.xz
 
 echo -e "${RED}>>> Compiling and installing GMP in 5 seconds...this may take a few moments...${NC}"
 sleep 5
 
 # GNU
-
-cd ~/Downloads &&
 
 cd gmp-6.2.1
 ./configure --disable-shared
@@ -43,14 +40,13 @@ sleep 5
 
 # MPFR for Kanjitalk755 Version
 
-wget https://www.mpfr.org/mpfr-current/mpfr-4.2.2.tar.xz -O - | tar -xf -C ~/Downloads
+cd ~/rpi5-basilikii
+wget https://www.mpfr.org/mpfr-current/mpfr-4.2.2.tar.xz
 
 echo -e "${RED}>>> Compiling and installing MPFR in 5 seconds...this may take a few moments...${NC}"
 sleep 5
 
 # MPFR
-
-cd ~/Downloads &&
 
 cd mpfr-4.2.2
 ./configure --disable-shared
