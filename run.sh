@@ -22,7 +22,7 @@ sleep 5
 # GMP for Kanjitalk755 Version
 
 wget https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
-tar -xf -C gmp-6.2.1.tar.xz
+tar -xf gmp-6.2.1.tar.xz
 
 echo -e "${RED}>>> Compiling and installing GMP in 5 seconds...this may take a few moments...${NC}"
 sleep 5
@@ -42,6 +42,7 @@ sleep 5
 
 cd ~/rpi5-basilikii
 wget https://www.mpfr.org/mpfr-current/mpfr-4.2.2.tar.xz
+tar -xf mpfr-4.2.2.tar.xz
 
 echo -e "${RED}>>> Compiling and installing MPFR in 5 seconds...this may take a few moments...${NC}"
 sleep 5
