@@ -3,7 +3,7 @@
 RED='\033[0;31m'	# Red Color
 NC='\033[0m'		# No Color
 
-read -p $'\e[31m>>> Perform system update and upgrade first? (Reboot required) \e[0m' -n 1 -r
+read -p $'\e[31m>>> Perform system update and upgrade first? (Y or N?)(Reboot required) \e[0m' -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
