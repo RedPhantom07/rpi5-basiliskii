@@ -105,7 +105,6 @@ yearofs 0
 dayofs 0
 swap_opt_cmd true
 ignoresegv true
-soundbuffer 0
 name_encoding 0
 init_grab false
 dsp /dev/dsp
