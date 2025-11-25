@@ -80,7 +80,7 @@ serialb /dev/ttyS1
 udptunnel false
 bootdrive 0
 bootdriver 0
-ramsize 142606336
+ramsize 67108864
 frameskip 0
 modelid 14
 cpu 4
