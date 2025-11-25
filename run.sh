@@ -73,6 +73,7 @@ echo -e "${RED}>>> Setting up some Basilisk II preferences.${NC}"
 
 echo "rom /home/pi/Quadra800.ROM
 disk /home/pi/HD500.dsk
+extfs
 displaycolordepth 8
 seriala /dev/ttyS0
 serialb /dev/ttyS1
