@@ -76,4 +76,105 @@ The full images are provided as an option if you are trying to build a retro loo
 
 When you first start MacOS, you should take a moment to go to the TCP/IP control panel, and start it up to using TCP/IP.  Just click Yes, and then close the control panel.  You can also go into Monitors and change the number of colors being displayed.  If you choose Shut Down from the Special Menu, it will shut down the Pi as well, which will display a black screen until you remove power to the Pi.
 
-MORE TO COME...
+Flashing to an SD Card:
+
+Updating you WiFi Settings:
+
+**How to Make Your Own Version - Follow Up to Option 1**
+
+In case you are interested in modifying your installation (or your image), here are some of the methods I used to achieve this.  Again, I'm not a software guy, and I wanted something that worked.  If there is a more efficient version, I am all ears.  There is also no guarantee that this will work for you either, as Linux can be...difficult at times...as well as new updates change, and break old things.  IT IS RECOMMENDED THAT YOU KEEP SSH ENABLAED, BECAUSE ONCE WE START CHANGING THINGS, YOU WILL NOT BE ABLE TO MODIFY SETTINGS ON THE PI ITSELF.
+
+Raspberry Pi 4/5
+
+First, to let the Raspberry Pi boot straight into Basilisk II, you have to create a service to do that.  A service loads with the rest of the OS.  The following is based on the installation of the script, (and the image.)  Again this assumes that your using the user "pi."
+
+The first step is to create the service file itself:
+
+    sudo nano /etc/systemd/system/basilisk.service
+
+This will open the text editor, and then you want to put in the following:
+
+    [Unit]
+    Description=Basilisk II Emulator
+    After=multi-user.target
+    Wants=multi-user.target
+
+    [Service]
+    Type=simple
+    User=pi
+    WorkingDirectory=/home/pi
+    ExecStartPre=aplay /home/pi/startup.wav
+    ExecStart=/usr/local/bin/BasiliskII
+
+    # Shutdown Pi when Basilisk exits, currently disabled, remove the # before Exec to turn on
+    #ExecStopPost=sudo shutdown -h now
+
+    StandardInput=tty
+    StandardOutput=null
+    TTYPath=/dev/tty1
+    Environment=SDL_VIDEODRIVER=kmsdrm
+    Environment=KMSDRM_REQUIRE_DRM_MASTER=1
+
+    [Install]
+    WantedBy=multi-user.target
+
+This creates a startup service for Basilisk II, and if you notice, will also play the startup chime before the Program starts.  It also removes the text you see when Basilisk II normally starts.  This is accomplished with "StartupOutput=null"  You need to update the service field by typing:
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable basilisk.service
+
+This is only the first step though, because, you still have a good deal of text during the boot up sequence.  Well there are two more steps to that.  The next step involves modifying cmdline.txt.  To do this:
+
+    sudo nano /boot/firmware/cmdline.txt
+
+Unless you have already modified this yourself, you will want to remove everything in the file, and replace it with the following:
+
+    root=PARTUUID=4ae6f1e5-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=US quiet splash loglevel=0 vt.global_cursor_default=0
+
+This removes the reporting to the console of the boot sequence, and adds "quiet", "splash", "loglevel=0", and "vt.global_cursor_default=0"  The last flag removes the blinking cursor, including at the command line level.  
+
+The last step is to remove the login prompt.  You can configure this in "raspi-config" by choosing Option 1, and turning on Auto Login.  But wait, there is more.  We also have to edit another file to get rid of all that annoying text.  To do this, go back to the command line, and type:
+
+    sudo systemctl edit getty@tty1.service
+
+Most of this file will be commented out, however at the top of the file you will see the lines:
+
+    ### Editing /etc/systemd/system/getty@tty1.service.d/override.conf
+    ### Anything between here and the comment below will become the contents of the drop-in file
+
+Then several lines of blank spaces, followed by:
+
+    ### Edits below this comment will be discarded
+
+In between these two lines you want to add the following, so it looks like this when you are done:
+
+    ### Editing /etc/systemd/system/getty@tty1.service.d/override.conf
+    ### Anything between here and the comment below will become the contents of the drop-in file
+
+    [Service]
+    ExecStart=
+    ExecStart=-/sbin/agetty --autologin pi --noclear --noissue --login-options "--silent" tty1 linux
+    Type=oneshot
+
+    ### Edits below this comment will be discarded
+
+Once you close this, you are ready to proceed.  If you have done all of these things, and saved them along the way, you should be ready to proceed.  Restart your pi.
+
+    sudo reboot
+
+Assuming everything went well, the Pi should reboot, and keep a black screen, until you hear a chime, and watch Basilisk II startup.  If you are happy, and everything is working, then you can go back to the service and edit it to turn off the Pi when you close down Basilisk II.
+
+    sudo nano /etc/systemd/system/basilisk.service
+
+Then goto the line that says:
+
+    #ExecStopPost=sudo shutdown -h now
+
+Remove the "#" sign, save, and then type the following.
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable basilisk.service
+
+You should be all set.  HOWEVER, please note that once you do this, if you need to change anything you will have to do so by editing the files on another machine or VM where you can look at the directories and make changes.  I recommend waiting on the shutdown service, until you are 100% you are good to go.  The easiest way to get back in, would be to edit the "/etc/systemd/system/basilisk.service" on another machine or VM, and add the "#" back in.  When you shutdown Basilisk after that, you can still SSH in and make changes from there.
+
+I hope that found this useful.  You are more then welcome to ask questions, I'm not sure I'll have answers for you, but I'm always trying to give back to the community that has helped me do so much.
