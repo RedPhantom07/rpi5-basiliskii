@@ -24,7 +24,7 @@ The following have been used in this build:
 
 The default screen is set to 800 x 600 with a 68040 processor, and 64mb of RAM.  The ethernet is slirp which works with the onboard wifi.
 
-**Option #1 - run.sh**
+## Option #1 - run.sh
 
 To install using the script, boot into your Raspberry Pi OS Lite.  This script assumes that your username is "pi" Once your OS is loaded, and you are sitting at the prompt run the following commands:
 
@@ -74,7 +74,7 @@ When you first start MacOS, you should take a moment to go to the TCP/IP control
 
 While the startup.wav, (which is the bong from the early 90s Macs) was included with the repo, it is not used with the launch of Basilisk II.  It is provided in case you wish to do further modification to get it to launch.  If you continue reading in Option 2, you will see that provide some information as to how I created the image, and you may find some information if you want to adapt part of it to your new installation, including using startup.wav.
 
-There are a few additional steps for the Pi Zero W.
+### There are a few additional steps for the Pi Zero W.
 
 First, fair warning.  It's going to take the better part of two (2) hours to download and compile everything. The Pi Zero W is not fast, which is why you may want to think about the image file.  That being said, if you go through with it, then you have to configure the audio out of the Pi Zero, as for some reason it does not do so by itself.  After much deep diving, the best way I have found to do this as of Bookworm (2025) is to edit the following file:
 
@@ -102,7 +102,7 @@ You can either start Basilisk II and test sound in there, or you can try playing
 
 As of 2025 this should produce sound.
 
-**Option 2 - Full Image**
+## Option 2 - Full Image
 
 The full images are provided as an option if you are trying to build a retro looking Classic Mac, but wanted to use modern hardware to do it.  The images provided can be flashed to flash card using something like Rufus, or balenaEtcher.  It will take the image, and make the copy, and then when you put it into the Raspberry Pi, turn the Pi on, you will see a black screen, then hear a Mac boot chime, and Basilisk II will autoload into the MacOS 7.6 desktop.
 
@@ -114,11 +114,11 @@ Flashing to an SD Card:
 
 Updating you WiFi Settings:
 
-**How to Make Your Own Version - Follow Up to Option 1**
+## How to Make Your Own Version - Follow Up to Option 1
 
 In case you are interested in modifying your installation (or your image), here are some of the methods I used to achieve this.  Again, I'm not a software guy, and I wanted something that worked.  If there is a more efficient version, I am all ears.  There is also no guarantee that this will work for you either, as Linux can be...difficult at times...as well as new updates change, and break old things.  IT IS RECOMMENDED THAT YOU KEEP SSH ENABLAED, BECAUSE ONCE WE START CHANGING THINGS, YOU WILL NOT BE ABLE TO MODIFY SETTINGS ON THE PI ITSELF.
 
-Raspberry Pi 4/5
+### Raspberry Pi 4/5
 
 First, to let the Raspberry Pi boot straight into Basilisk II, you have to create a service to do that.  A service loads with the rest of the OS.  The following is based on the installation of the script, (and the image.)  Again this assumes that your using the user "pi."
 
@@ -211,7 +211,7 @@ Remove the "#" sign, save, and then type the following.
 
 You should be all set.  HOWEVER, please note that once you do this, if you need to change anything you will have to do so by editing the files on another machine or VM where you can look at the directories and make changes.  I recommend waiting on the shutdown service, until you are 100% you are good to go.  The easiest way to get back in, would be to edit the "/etc/systemd/system/basilisk.service" on another machine or VM, and add the "#" back in.  When you shutdown Basilisk after that, you can still SSH in and make changes from there.
 
-Raspberry Pi Zero W
+### Raspberry Pi Zero W
 
 The process here is different than the 4/5 process, as the Zero works a little differently.  As you have seen above, we already had to make a change to get the sound to work on the device.  The upside is that it feels more like a retro computer consider it takes more time to load, and the RAM is much less, and closer to an older Mac.
 
