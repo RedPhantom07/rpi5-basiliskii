@@ -161,9 +161,13 @@ This is only the first step though, because, you still have a good deal of text 
 
     sudo nano /boot/firmware/cmdline.txt
 
-Unless you have already modified this yourself, you will want to remove everything in the file, and replace it with the following:
+Unless you have already modified this yourself, you will want to remove the following:
 
-    root=PARTUUID=4ae6f1e5-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=US quiet splash loglevel=0 vt.global_cursor_default=0
+    console=tty01
+
+And then add in:
+
+    quiet splash loglevel=0 vt.global_cursor_default=0
 
 This removes the reporting to the console of the boot sequence, and adds "quiet", "splash", "loglevel=0", and "vt.global_cursor_default=0"  The last flag removes the blinking cursor, including at the command line level.  
 
