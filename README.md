@@ -246,11 +246,21 @@ The next thing we need to edit is the cmdline.txt, so that we can remove as much
 
     sudo /boot/firmware/cmdline.txt
 
-Replace everything in the file with the following:  (need to update for Pi Zero W)
+Unless you have already modified this yourself, you will want to remove the following:
 
-    root=PARTUUID=4ae6f1e5-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=US quiet splash loglevel=0 vt.global_cursor_default=0
+    console=tty01
 
-Close and save the file.
+And then add in:
+
+    quiet splash loglevel=0 vt.global_cursor_default=0
+
+You might also want to take a moment to remove the Pi Zero W splash screen:
+
+    sudo /boot/firmware/config.txt
+
+At the very bottom, you want to add:
+
+    logo.nologo
 
 Finally, to create the last silent part of the boot, and get it to display only a black screen we need to change the following:
 
