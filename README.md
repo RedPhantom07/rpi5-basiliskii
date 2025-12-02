@@ -4,6 +4,11 @@ Forked from Ekbann's script, this script will automatically download and compile
 
 I would recommend at least 8 GB SD cards for these builds.
 
+All images have the standard username, and password:
+
+    user:  pi
+    pass:  raspberry
+
 There are two options a available in this build:
 
 First is the run.sh script that will load a working Basilisk II without using X11 or a desktop enivornment.  This is for use with exisitng Raspberry Pi installations.  ((Disclaimer:  I'm not a coder; I'm a hardware guy.  Backup your exisiting installations first, before applying this if you want to make sure they do not become corrupted.))
@@ -76,7 +81,7 @@ While the startup.wav, (which is the bong from the early 90s Macs) was included 
 
 ### There are a few additional steps for the Pi Zero W.
 
-First, fair warning.  It's going to take the better part of two (2) hours to download and compile everything. The Pi Zero W is not fast, which is why you may want to think about the image file.  That being said, if you go through with it, then you have to configure the audio out of the Pi Zero, as for some reason it does not do so by itself.  After much deep diving, the best way I have found to do this as of Bookworm (2025) is to edit the following file:
+First, fair warning.  It's going to take the better part of two (2) hours to download and compile everything. The Pi Zero W is not fast, which is why you may want to think about the image file.  That being said, if you go through with it, then you may have to configure the audio out of the Pi Zero, as for some reason it does not always do so by itself.  I would suggest testing the sound in Basilisk II first, but if you hear the chime during boot, that is a good indication it is working.  After much deep diving, the best way I have found to do this as of Bookworm (2025) is to edit the following file:
 
     sudo nano ~/.asoundrc
 
@@ -104,7 +109,7 @@ As of 2025 this should produce sound.
 
 ## Option 2 - Full Image
 
-The full images are provided as an option if you are trying to build a retro looking Classic Mac, but wanted to use modern hardware to do it.  The images provided can be flashed to flash card using something like Rufus, or balenaEtcher.  It will take the image, and make the copy, and then when you put it into the Raspberry Pi, turn the Pi on, you will see a black screen, then hear a Mac boot chime, and Basilisk II will autoload into the MacOS 7.6 desktop.
+The full images are provided as an option if you are trying to build a retro looking Classic Mac, but wanted to use modern hardware to do it.  The images provided can be flashed to flash card using something like Rufus, or balenaEtcher.  It will take the image, flash it to the SD card, and then when you put it into the Raspberry Pi, turn the Pi on, you will see a black screen, then hear a Mac boot chime, and Basilisk II will autoload into the MacOS 7.6 desktop.
 
 When you first start MacOS, you should take a moment to go to the TCP/IP control panel, and start it up to using TCP/IP.  Just click Yes, and then close the control panel.  You can also go into Monitors and change the number of colors being displayed.  If you choose Shut Down from the Special Menu, it will shut down the Pi as well, which will display a black screen until you remove power to the Pi.
 
@@ -112,7 +117,50 @@ The image for the Raspberry Pi Zero W is probably a faster way to do the Pi Zero
 
 Flashing to an SD Card:
 
+Unzip your choice of image, and locate the .img file.  If you are using Balena Etcher, the first step is selecting the image.  Click "Select Image" and locate the .img file you just uncompressed.  Next make sure you have a SD card ready to go.  You need at least an 8 GB card so that the entire image will fit.  In Balena Etcher, click "Select Target" and then select the drive containing the SD card.  Finally click "Flash!"  The process will take a little while to complete.  First you will see a progress bar for flashing, and then it will be followed by a progress bar for Verifying.  Once the flash is complete, it will unmount the SD card, and it should be ready to go to insert into the Pi.
+
+On first boot of the Pi, the SD card contains a script that will automatically expand the file storage to include the rest of the space on the card.  When it does that, it will automatically reboot, so do not be surprised if the first run takes a little bit longer than normal, especially on the Pi Zero.  During this time, as it has been configured, the screen will remain black.  (My monitor will display resolution changes and updates every so often, so that is how I can tell that it is continuing with the process.)  Eventually, the system will finish, and you should hear a Mac chime, and see a desktop load in Basilisk.  Depending on the model that you have, you may or may not see the OS loading screen.  The Pi 5 seems to load straight to desktop pretty quickly.  Once the desktop is loaded, you can proceed to the next step to add networking, or if you wish to leave it as a standalone, then you are finished, Enjoy!
+
 Updating you WiFi Settings:
+
+I hope to find a better way to do this.  In the old days, you could add a wpa_supplicant.conf to the root directory, with your WiFi information, and it would configure the WiFi automatically on the Pi for you.  Since they swtiched to cloud_init though in Bookworm, that process has changed, so for the moment, here is the route I use.  I left the SSH port open on each image.  If you are using a Pi 4 or Pi 5, then you can attach a hardwire to the network port, and then using a program to see the devices on your network, you should be able to see the device.  (Note:  Please make sure to shutdown from Basilisk, before doing this.  It should return you to a black screen.)  Using a terminal window you can access the Pi using the following command:
+
+    ssh pi@<ipaddress of pi>
+
+It will then prompt you for the password, which is:
+
+    raspberry
+
+You should then see a standard command line on your terminal window.  Next, enter the following:
+
+    sudo raspi-config
+
+This will bring up the normal Raspberry Pi setup window.  By choosing option "1" you can then scroll down, to the WiFi setting and setup your WiFi for wireless networking.
+
+Having Basilisk II Shutdown your Pi:
+
+Finally, while you are still inside the SSH you can change one option to let Basilisk shutdown your Pi, when you choose Shut Down in the Special Menu.  This will require editing an exisitng file.  WARNING:  By editing this file, you will be unable to make other changes to the installation without the use of another Linux machine.  By taking the following steps, the Pi will shutdown whenever Basilisk quits, exits, crashes, or ends in anyway.
+
+The first step, is by opening the file:
+
+    sudo nano /etc/systemd/system/basilisk.service
+
+If you scroll down through the file, you should see the line:
+
+     # Shutdown Pi when Basilisk exits, currently disabled, remove the # before Exec to turn on
+     #ExecStopPost=sudo shutdown -h now
+
+Simply delete the "#" next to ExecStopPost, so that it looks like this:
+
+    ExecStopPost=sudo shutdown -h now
+
+Hit Ctrl+X, to exit the document, and then "Y" to save the file.  Follow that, by typing the following commands:
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable basilisk.service
+
+This will reload the service.  This has now become somewhat permament, meaning the only way to change it back, would be to edit the file itself on another Linux computer to add the "#" back in, because there will be no further way to access the command line while Basilisk is running, and when you exit Basilisk, it shut downs the Pi.
+
 
 ## How to Make Your Own Version - Follow Up to Option 1
 
@@ -260,7 +308,7 @@ You might also want to take a moment to remove the Pi Zero W splash screen:
 
 At the very bottom, you want to add:
 
-    logo.nologo
+    disable_splash=1
 
 Finally, to create the last silent part of the boot, and get it to display only a black screen we need to change the following:
 
