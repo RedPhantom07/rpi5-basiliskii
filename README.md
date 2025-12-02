@@ -115,13 +115,13 @@ When you first start MacOS, you should take a moment to go to the TCP/IP control
 
 The image for the Raspberry Pi Zero W is probably a faster way to do the Pi Zero W, as the download and configuration through the script can take almost two hours.
 
-Flashing to an SD Card:
+#### Flashing to an SD Card:
 
 Unzip your choice of image, and locate the .img file.  If you are using Balena Etcher, the first step is selecting the image.  Click "Select Image" and locate the .img file you just uncompressed.  Next make sure you have a SD card ready to go.  You need at least an 8 GB card so that the entire image will fit.  In Balena Etcher, click "Select Target" and then select the drive containing the SD card.  Finally click "Flash!"  The process will take a little while to complete.  First you will see a progress bar for flashing, and then it will be followed by a progress bar for Verifying.  Once the flash is complete, it will unmount the SD card, and it should be ready to go to insert into the Pi.
 
 On first boot of the Pi, the SD card contains a script that will automatically expand the file storage to include the rest of the space on the card.  When it does that, it will automatically reboot, so do not be surprised if the first run takes a little bit longer than normal, especially on the Pi Zero.  During this time, as it has been configured, the screen will remain black.  (My monitor will display resolution changes and updates every so often, so that is how I can tell that it is continuing with the process.)  Eventually, the system will finish, and you should hear a Mac chime, and see a desktop load in Basilisk.  Depending on the model that you have, you may or may not see the OS loading screen.  The Pi 5 seems to load straight to desktop pretty quickly.  Once the desktop is loaded, you can proceed to the next step to add networking, or if you wish to leave it as a standalone, then you are finished, Enjoy!
 
-Updating you WiFi Settings:
+#### Updating you WiFi Settings:
 
 I hope to find a better way to do this.  In the old days, you could add a wpa_supplicant.conf to the root directory, with your WiFi information, and it would configure the WiFi automatically on the Pi for you.  Since they swtiched to cloud_init though in Bookworm, that process has changed, so for the moment, here is the route I use.  I left the SSH port open on each image.  If you are using a Pi 4 or Pi 5, then you can attach a hardwire to the network port, and then using a program to see the devices on your network, you should be able to see the device.  (Note:  Please make sure to shutdown from Basilisk, before doing this.  It should return you to a black screen.)  Using a terminal window you can access the Pi using the following command:
 
@@ -137,7 +137,7 @@ You should then see a standard command line on your terminal window.  Next, ente
 
 This will bring up the normal Raspberry Pi setup window.  By choosing option "1" you can then scroll down, to the WiFi setting and setup your WiFi for wireless networking.
 
-Having Basilisk II Shutdown your Pi:
+#### Having Basilisk II Shutdown your Pi:
 
 Finally, while you are still inside the SSH you can change one option to let Basilisk shutdown your Pi, when you choose Shut Down in the Special Menu.  This will require editing an exisitng file.  WARNING:  By editing this file, you will be unable to make other changes to the installation without the use of another Linux machine.  By taking the following steps, the Pi will shutdown whenever Basilisk quits, exits, crashes, or ends in anyway.
 
