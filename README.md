@@ -109,6 +109,13 @@ As of 2025 this should produce sound.
 
 ## Option 2 - Full Image
 
+I've created the following images, the RPi 4 and 5 are 64-bit, the Pi Zero W is 32-bit.
+
+[Raspberry Pi 5](https://mega.nz/file/nZNk3SQI#DcxHI7vfAH5r08z_-juWvIYC53ATVZ_zixup0g0DFYA)
+[Raspberry Pi 4](https://mega.nz/file/GNl2BTZD#sx14Gmyuj1iyIdsTa6NRzUgxTT23gPr59oAnTODHYrw)
+
+[Raspberry Pi Zero W](https://mega.nz/file/bAESHQhZ#KDwYhBMXaxASzUaA1jEdsEeDxDEfXE9nW0epCpWhCBE)
+
 The full images are provided as an option if you are trying to build a retro looking Classic Mac, but wanted to use modern hardware to do it.  The images provided can be flashed to flash card using something like Rufus, or balenaEtcher.  It will take the image, flash it to the SD card, and then when you put it into the Raspberry Pi, turn the Pi on, you will see a black screen, then hear a Mac boot chime, and Basilisk II will autoload into the MacOS 7.6 desktop.
 
 When you first start MacOS, you should take a moment to go to the TCP/IP control panel, and start it up to using TCP/IP.  Just click Yes, and then close the control panel.  You can also go into Monitors and change the number of colors being displayed.  If you choose Shut Down from the Special Menu, it will shut down the Pi as well, which will display a black screen until you remove power to the Pi.
